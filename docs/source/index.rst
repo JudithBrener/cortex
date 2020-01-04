@@ -10,8 +10,6 @@ Welcome to thoughts-processor's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   thought
-
 
 Indices and tables
 ==================
