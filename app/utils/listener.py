@@ -1,6 +1,6 @@
 import socket
 
-from connection import Connection
+from app.utils.connection import Connection
 
 
 class Listener:

@@ -3,7 +3,7 @@ import time
 
 import pytest
 
-from connection import Connection
+from app.utils.connection import Connection
 
 _PORT = 1234
 _DATA = b'Hello, world!'

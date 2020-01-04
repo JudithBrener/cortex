@@ -1,9 +1,9 @@
 import datetime
 import socket
 
-from cli import CommandLineInterface
-from connection import Connection
-from thought import Thought
+from app.cli import CommandLineInterface
+from app.thought import Thought
+from app.utils.connection import Connection
 
 cli = CommandLineInterface()
 

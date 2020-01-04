@@ -2,7 +2,7 @@ import datetime as dt
 
 import pytest
 
-from thought import Thought
+from app.thought import Thought
 
 user_id = 1
 datetime = dt.datetime(2000, 1, 1, 12, 0)

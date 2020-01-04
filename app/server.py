@@ -1,8 +1,8 @@
 import traceback
 
-import client_handler
-from cli import CommandLineInterface
-from listener import Listener
+from app import client_handler
+from app.cli import CommandLineInterface
+from app.utils.listener import Listener
 
 cli = CommandLineInterface()
 
