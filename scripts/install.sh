@@ -9,6 +9,11 @@ function main {
     find .env -name site-packages -exec bash -c 'echo "../../../../" > {}/self.pth' \;
     .env/bin/pip install -U pip
     .env/bin/pip install -r requirements.txt
+
+#   Generate protobuf sources:
+    rm -rdf app/generated-sources
+    mkdir app/generated-sources
+    protoc --python_out=app/generated-sources proto/cortex.proto
 }
 
 
