@@ -36,3 +36,4 @@ urllib3==1.25.7
 wcwidth==0.1.8
 Werkzeug==0.16.0
 virtualenv==16.7.9
+protobuf==3.11.2

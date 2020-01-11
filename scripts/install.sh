@@ -11,9 +11,7 @@ function main {
     .env/bin/pip install -r requirements.txt
 
 #   Generate protobuf sources:
-    rm -rdf app/generated-sources
-    mkdir app/generated-sources
-    protoc --python_out=app/generated-sources proto/cortex.proto
+    protoc -I=app/proto/ --python_out=app/proto/ app/proto/cortex.proto
 }
 
 
