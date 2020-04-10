@@ -18,10 +18,11 @@ class Upload:
         try:
             snapshot_dict = MessageToDict(snapshot, including_default_value_fields=True,
                                           preserving_proto_field_name=True)
-            user_dict = MessageToDict(snapshot, including_default_value_fields=True, preserving_proto_field_name=True)
+            user_dict = MessageToDict(self.user, including_default_value_fields=True, preserving_proto_field_name=True)
             snapshot_data = {'user': user_dict, 'snapshot': snapshot_dict}
             requests.put(server_url, data=dumps(snapshot_data))
         except ConnectionError:
             print(f'ConnectionError to {self.host}:{self.port} - upload failed')
         except Exception as error:
             print(f'ERROR: {error} - upload failed')
+
