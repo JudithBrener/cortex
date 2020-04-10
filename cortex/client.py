@@ -2,8 +2,8 @@ import gzip
 import traceback
 from pathlib import Path
 
-from .uploader import Upload
-from .reader import Reader
+from cortex.uploader import Upload
+from cortex.reader import Reader
 
 
 def upload_sample(host, port, path):
