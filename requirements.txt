@@ -1,3 +1,5 @@
+google
+bson
 alabaster==0.7.12
 appdirs==1.4.3
 atomicwrites==1.3.0
