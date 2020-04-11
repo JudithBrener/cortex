@@ -1,4 +1,5 @@
 import json
+import logging
 import tempfile
 from pathlib import Path
 
@@ -6,6 +7,7 @@ import bson
 from flask import Flask
 from flask import request
 
+log = logging.getLogger(__name__)
 app = Flask(__name__)
 server = None
 
@@ -21,9 +23,22 @@ class Server:
         pass
 
     def handle_snapshot(self, data):
-        snapshot = bson.loads(data)
-        slim_snapshot = self._get_slim_snapshot(snapshot)
+        try:
+            message = bson.loads(data)
+            self.validate_snapshot(message)
+        except Exception as e:
+            log.warning(e)
+            return "Invalid snapshot message", 400
+        slim_snapshot = self._get_slim_snapshot(message)
         self.publish_method(json.dumps(slim_snapshot))
+        return 'OK'
+
+    @staticmethod
+    def validate_snapshot(message):
+        assert message['user']['user_id'] \
+               and message['snapshot']['datetime'] \
+               and message['snapshot']['color_image'] \
+               and message['snapshot']['depth_image']
 
     def _get_slim_snapshot(self, message):
         base_path = Path(self.data_dir)
@@ -37,7 +52,8 @@ class Server:
 
         return message
 
-    def _save_image_to_disk(self, image, path):
+    @staticmethod
+    def _save_image_to_disk(image, path):
         # save image to disk
         with open(path, 'w') as f:
             f.write(json.dumps(image["data"]))
@@ -55,11 +71,7 @@ def health():
 
 @app.route('/snapshot', methods=['PUT'])
 def put_snapshot():
-    data = request.data
-    print(data)
-    print(request.content_type)
-    server.handle_snapshot(data)
-    return 'OK'
+    return server.handle_snapshot(request.data)
 
 
 def set_server(instance):
@@ -68,7 +80,7 @@ def set_server(instance):
 
 
 def run_server(host, port, publish):
-    print('Going to run server at host: ' + host + ' port: ' + str(port))
+    log.info('Going to run server at host: ' + host + ' port: ' + str(port))
     set_server(Server(publish))
     Flask.run(app, host, port)
     return app
