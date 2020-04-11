@@ -1,3 +1,4 @@
+pika
 google
 bson
 alabaster==0.7.12

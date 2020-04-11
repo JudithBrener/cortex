@@ -3,16 +3,13 @@ from urllib.parse import urlparse
 
 import click
 
-from cortex.server import run_server
 from cortex.server import log
+from cortex.server import run_server
+from cortex.server.rabbitmq_publisher import get_rabbitmq_publish_method
 
 
 @click.group()
 def cli():
-    pass
-
-
-def publish_to_mq(message):
     pass
 
 
@@ -25,7 +22,7 @@ def run(host, port, message_queue_url):
     if not parse_url.scheme:
         raise ValueError("message queue URL is invalid")
     if parse_url.scheme == 'rabbitmq':
-        publish = publish_to_mq
+        publish = get_rabbitmq_publish_method(parse_url.hostname, parse_url.port)
     else:
         raise NotImplementedError('not supporting message queue of type ' + parse_url.scheme)
     run_server(host, port, publish)
