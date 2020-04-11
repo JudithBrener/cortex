@@ -1,5 +1,5 @@
 import struct
-from .proto.cortex_pb2 import User, Snapshot
+from cortex.proto.cortex_pb2 import User, Snapshot
 
 
 class Reader:
