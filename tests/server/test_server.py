@@ -2,7 +2,7 @@ import json
 import pathlib
 import time
 
-import bson
+import pybson as bson
 import pytest
 
 from cortex.server.server import Server, set_server
@@ -20,35 +20,42 @@ _FILE = 'test_file'
 
 
 @pytest.fixture
-def client(tmp_path):
+def data_dir(tmp_path):
+    return tmp_path
+
+
+@pytest.fixture
+def client(data_dir):
     def publish_method(message):
-        with open(tmp_path / _FILE, 'w') as f:
+        with open(data_dir / _FILE, 'w') as f:
             f.write(message)
 
-    set_server(Server(publish_method, str(tmp_path)))
+    set_server(Server(publish_method, str(data_dir)))
     app = flask_app
     with app.test_client() as client:
-        yield client, tmp_path
+        time.sleep(0.1)
+        yield client
 
 
 def test_health(client):
-    client, ignored = client
     response = client.get('/')
     assert response.status_code == 200
     assert response.data == b'Server is up and running!'
 
 
 def test_bad_request(client):
-    client, data_dir = client
-    time.sleep(0.3)
     response = client.put('/snapshot', data=bson.dumps({"user": {"malformed_user": 111}, "snapshot": _SNAPSHOT}))
     assert response.status_code == 400
     assert 'Invalid snapshot message' in str(response.data)
 
 
-def test_mock_snapshot(client):
-    client, data_dir = client
-    time.sleep(0.3)
+def test_bad_encoding(client):
+    response = client.put('/snapshot', data=json.dumps({"user": {"malformed_user": 111}, "snapshot": _SNAPSHOT}))
+    assert response.status_code == 400
+    assert 'Invalid snapshot message' in str(response.data)
+
+
+def test_mock_snapshot(client, data_dir):
     response = client.put('/snapshot', data=bson.dumps(_MESSAGE))
     assert response.status_code == 200
     f = data_dir / _FILE
@@ -62,9 +69,7 @@ def test_mock_snapshot(client):
     })
 
 
-def test_real_snapshot(client):
-    client, data_dir = client
-    time.sleep(0.3)
+def test_real_snapshot(client, data_dir):
     sample = pathlib.Path(__file__).resolve().parent.parent / 'resources' / 'test_snapshot.bin'
     snapshot_binary = sample.read_bytes()
     response = client.put('/snapshot', data=snapshot_binary)

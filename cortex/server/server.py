@@ -1,9 +1,10 @@
 import json
 import logging
 import tempfile
+import traceback
 from pathlib import Path
 
-import bson
+import pybson as bson
 from flask import Flask
 from flask import request
 
@@ -27,7 +28,7 @@ class Server:
             message = bson.loads(data)
             self.validate_snapshot(message)
         except Exception as e:
-            log.warning(e)
+            log.warning("Invalid snapshot message. Exception: \n{}".format(traceback.format_exc()))
             return "Invalid snapshot message", 400
         slim_snapshot = self._get_slim_snapshot(message)
         self.publish_method(json.dumps(slim_snapshot))

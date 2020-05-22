@@ -1,4 +1,4 @@
-from bson import dumps
+from pybson import dumps
 import requests
 from google.protobuf.json_format import MessageToDict
 

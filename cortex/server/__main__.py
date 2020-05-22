@@ -1,4 +1,5 @@
 import sys
+import traceback
 from urllib.parse import urlparse
 
 import click
@@ -32,5 +33,5 @@ if __name__ == '__main__':
     try:
         cli()
     except Exception as e:
-        log.error(e)
+        log.error(traceback.format_exc())
         sys.exit(1)
