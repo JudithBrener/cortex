@@ -50,7 +50,7 @@ def test_bad_request(client):
 
 
 def test_bad_encoding(client):
-    response = client.put('/snapshot', data=json.dumps({"user": {"malformed_user": 111}, "snapshot": _SNAPSHOT}))
+    response = client.put('/snapshot', data=json.dumps(_MESSAGE))
     assert response.status_code == 400
     assert 'Invalid snapshot message' in str(response.data)
 

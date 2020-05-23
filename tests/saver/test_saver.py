@@ -3,14 +3,14 @@ from json import JSONDecodeError
 
 import pytest
 
-from cortex.saver.in_memory_db import InMemoryDB
+from cortex.saver.in_memory_db import InMemoryCortexDao
 from cortex.saver.saver import Saver
-from tests.saver.test_data import _TEST_TOPIC, _USER, _TIMESTAMP, _TEST_DATA, _MESSAGE, _REAL_MESSAGE
+from tests.saver.test_data import _TEST_TOPIC, _USER, _TIMESTAMP, _TEST_DATA, _MESSAGE, _REAL_MESSAGE, _USER_ID
 
 
 @pytest.fixture
 def db():
-    return InMemoryDB()
+    return InMemoryCortexDao()
 
 
 @pytest.fixture
@@ -45,12 +45,12 @@ def test_input_without_topic_data(saver):
 
 def test_save_user_info(saver, db):
     saver.save(_TEST_TOPIC, json.dumps(_MESSAGE))
-    assert _USER["user_id"] in db.users
+    assert _USER_ID in db.users
 
 
 def test_save_topic_data(saver, db):
     saver.save(_TEST_TOPIC, json.dumps(_MESSAGE))
-    assert_snapshot_data(db, _USER["user_id"], _TIMESTAMP, _TEST_TOPIC, _TEST_DATA)
+    assert_snapshot_data(db, _USER_ID, _TIMESTAMP, _TEST_TOPIC, _TEST_DATA)
 
 
 def test_save_real_message(saver, db):

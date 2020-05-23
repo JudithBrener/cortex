@@ -1,7 +1,7 @@
-from cortex.saver.database import Database
+from cortex.saver.cortexdao import CortexDao
 
 
-class InMemoryDB(Database):
+class InMemoryCortexDao(CortexDao):
 
     def __init__(self) -> None:
         super().__init__()

@@ -1,8 +1,8 @@
 from abc import abstractmethod, ABC
 
 
-# An abstract database class used by the saver
-class Database(ABC):
+# An abstract Data Access Object used by the saver
+class CortexDao(ABC):
     def __init__(self) -> None:
         super().__init__()
 
