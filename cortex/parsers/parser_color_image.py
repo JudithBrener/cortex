@@ -1,3 +1,4 @@
+import base64
 import json
 from PIL import Image
 import pathlib
@@ -12,13 +13,16 @@ class ColorImageParser:
     def parse(message):
         message_dict = json.loads(message)
         snapshot = message_dict['snapshot']
-        width, height, data_path = snapshot['color_image']
+
+        color_image = snapshot['color_image']
+        width = color_image['width']
+        height = color_image['height']
+        data_path = color_image['data_path']
         bin_path = pathlib.Path(data_path)
-        print(bin_path)
         img_path = bin_path.parent / FILE_NAME
-        print(img_path)
-        with open(bin_path, 'rb') as f:
-            img_bytes = f.read()
+        with open(bin_path, 'r') as f:
+            img_data = f.read()
+            img_bytes = base64.b64decode(img_data)
         image = Image.frombytes('RGB', (width, height), img_bytes)
         image.save(img_path)
         result = {'user': message_dict['user'], 'color_image': str(img_path), 'datetime': snapshot['datetime']}
