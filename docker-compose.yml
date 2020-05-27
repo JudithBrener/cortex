@@ -1,0 +1,40 @@
+version: '3'
+services:
+
+  server:
+    image: snapshots-server
+    build: .
+    ports:
+      - 8000:8000
+    volumes:
+      - system_data:/tmp/cortex-data
+    command: python -m cortex.server run-server -h '0.0.0.0' -p 8000 rabbitmq://rabbitmq:5672/
+    depends_on:
+      - rabbitmq
+
+  #  saver:
+  #    image: cortex
+  #    volumes:
+  #      - system_data:/tmp/cortex-data
+  #    command: python3.8 -m cortex.saver run-saver mongodb://mongodb:27017/ rabbitmq://rabbitmq:5672/
+  #    depends_on:
+  #      - server
+  #      - rabbitmq
+  #      - mongodb
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  mongodb:
+    image: mongo:4.2.6
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
+  system_data:
