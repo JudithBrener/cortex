@@ -9,7 +9,7 @@ def cli():
     pass
 
 
-@cli.command('upload_sample')
+@cli.command('upload-sample')
 @click.option('-h', '--host', default='127.0.0.1', help='Server Host.')
 @click.option('-p', '--port', default=8000, help='Server port.')
 @click.argument('path', type=str)
