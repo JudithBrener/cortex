@@ -1,8 +1,12 @@
+import logging
 import sys
+import traceback
 from urllib.parse import urlparse
 import click
 
 from .parsers_manager import run_parser, consume_from_rabbitmq
+
+log = logging.getLogger(__name__)
 
 
 @click.group()
@@ -39,6 +43,6 @@ def cli_run_parser(parser_name, message_queue_url):
 if __name__ == '__main__':
     try:
         cli()
-    except Exception as error:
-        print(f'ERROR: {error}')
+    except Exception:
+        log.error(traceback.format_exc())
         sys.exit(1)

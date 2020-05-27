@@ -38,5 +38,3 @@ m = '{"user": {"user_id": "42", "username": "Dan Gittik", "birthday": 699746400,
     '/1575446887339/color_image.bin"}, "depth_image": {"width": 224, "height": 172, "data_path": ' \
     '"C:/Users/Judi/AppData/Local/Temp/pytest-of-Judi/pytest-1/test_real_snapshot0/42/1575446887339' \
     '/depth_image.bin"}, "feelings": {"hunger": 0.0, "thirst": 0.0, "exhaustion": 0.0, "happiness": 0.0}}} '
-
-DepthImageParser.parse(m)

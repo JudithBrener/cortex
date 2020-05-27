@@ -52,8 +52,8 @@ def consume_from_rabbitmq(hostname, port, saver):
     queue = channel.queue_declare("", exclusive=True).method.queue
     channel.queue_bind(exchange="cortex.parsers", queue=queue, routing_key='#')
 
-    def on_message_callback(topic, method, properties, body):
-        saver.save(topic, json.loads(body))
+    def on_message_callback(ch, method, properties, body):
+        saver.save(method.routing_key, body)
 
     channel.basic_consume(queue=queue, auto_ack=True, on_message_callback=on_message_callback)
     channel.start_consuming()

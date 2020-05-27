@@ -12,15 +12,30 @@ services:
     depends_on:
       - rabbitmq
 
-  #  saver:
-  #    image: cortex
-  #    volumes:
-  #      - system_data:/tmp/cortex-data
-  #    command: python3.8 -m cortex.saver run-saver mongodb://mongodb:27017/ rabbitmq://rabbitmq:5672/
-  #    depends_on:
-  #      - server
-  #      - rabbitmq
-  #      - mongodb
+  pose-parser:
+    image: pose-parser
+    build: .
+    volumes:
+      - system_data:/tmp/cortex-data
+    command: sh -c "/wait && python -m cortex.parsers run-parser pose rabbitmq://rabbitmq:5672/"
+    environment:
+      - WAIT_HOSTS=rabbitmq:5672
+    depends_on:
+      - server
+      - rabbitmq
+
+  saver:
+    image: saver
+    build: .
+    volumes:
+      - system_data:/tmp/cortex-data
+    command: sh -c "/wait && python -m cortex.saver run-saver mongodb://mongodb:27017/ rabbitmq://rabbitmq:5672/"
+    environment:
+      - WAIT_HOSTS=rabbitmq:5672, mongodb:27017
+    depends_on:
+      - server
+      - rabbitmq
+      - mongodb
 
   rabbitmq:
     image: rabbitmq:3-management
