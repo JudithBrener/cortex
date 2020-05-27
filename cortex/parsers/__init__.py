@@ -1,0 +1,1 @@
+from .parsers_manager import run_parser
