@@ -1,4 +1,4 @@
-from pybson import dumps
+import pybson as bson
 import requests
 from google.protobuf.json_format import MessageToDict
 
@@ -20,7 +20,7 @@ class Upload:
                                           preserving_proto_field_name=True)
             user_dict = MessageToDict(self.user, including_default_value_fields=True, preserving_proto_field_name=True)
             snapshot_data = {'user': user_dict, 'snapshot': snapshot_dict}
-            requests.put(server_url, data=dumps(snapshot_data))
+            requests.put(server_url, data=bson.dumps(snapshot_data))
         except ConnectionError:
             print(f'ConnectionError to {self.host}:{self.port} - upload failed')
         except Exception as error:

@@ -7,7 +7,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - system_data:/tmp/cortex-data
+      - cortex_data:/tmp/cortex-data
     command: python -m cortex.server run-server -h '0.0.0.0' -p 8000 rabbitmq://rabbitmq:5672/
     depends_on:
       - rabbitmq
@@ -16,10 +16,50 @@ services:
     image: pose-parser
     build: .
     volumes:
-      - system_data:/tmp/cortex-data
+      - cortex_data:/tmp/cortex-data
     command: sh -c "/wait && python -m cortex.parsers run-parser pose rabbitmq://rabbitmq:5672/"
     environment:
       - WAIT_HOSTS=rabbitmq:5672
+      - WAIT_SLEEP_INTERVAL=3
+    depends_on:
+      - server
+      - rabbitmq
+
+  color-image-parser:
+    image: color-image-parser
+    build: .
+    volumes:
+      - cortex_data:/tmp/cortex-data
+    command: sh -c "/wait && python -m cortex.parsers run-parser color_image rabbitmq://rabbitmq:5672/"
+    environment:
+      - WAIT_HOSTS=rabbitmq:5672
+      - WAIT_SLEEP_INTERVAL=3
+    depends_on:
+      - server
+      - rabbitmq
+
+  depth-image-parser:
+    image: depth-image-parser
+    build: .
+    volumes:
+      - cortex_data:/tmp/cortex-data
+    command: sh -c "/wait && python -m cortex.parsers run-parser depth_image rabbitmq://rabbitmq:5672/"
+    environment:
+      - WAIT_HOSTS=rabbitmq:5672
+      - WAIT_SLEEP_INTERVAL=3
+    depends_on:
+      - server
+      - rabbitmq
+
+  feelings-parser:
+    image: feelings-parser
+    build: .
+    volumes:
+      - cortex_data:/tmp/cortex-data
+    command: sh -c "/wait && python -m cortex.parsers run-parser feelings rabbitmq://rabbitmq:5672/"
+    environment:
+      - WAIT_HOSTS=rabbitmq:5672
+      - WAIT_SLEEP_INTERVAL=3
     depends_on:
       - server
       - rabbitmq
@@ -28,10 +68,11 @@ services:
     image: saver
     build: .
     volumes:
-      - system_data:/tmp/cortex-data
+      - cortex_data:/tmp/cortex-data
     command: sh -c "/wait && python -m cortex.saver run-saver mongodb://mongodb:27017/ rabbitmq://rabbitmq:5672/"
     environment:
       - WAIT_HOSTS=rabbitmq:5672, mongodb:27017
+      - WAIT_SLEEP_INTERVAL=3
     depends_on:
       - server
       - rabbitmq
@@ -48,8 +89,8 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongodb_data_container:/data/db
+      - mongo_volume:/data/db
 
 volumes:
-  mongodb_data_container:
-  system_data:
+  mongo_volume:
+  cortex_data:
