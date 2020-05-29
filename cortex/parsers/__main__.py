@@ -16,12 +16,12 @@ def cli():
 
 @cli.command('parse')
 @click.argument('parser_name', type=str)
-@click.argument('raw_data', type=click.File())
-def cli_parse(parser_name, raw_data):
+@click.argument('raw_data_path', type=click.File())
+def cli_parse(parser_name, raw_data_path):
     """
-    Receives parser name and some raw data and prints the result.
+    Receives parser name and a path to some raw data and prints the result.
     """
-    print(run_parser(parser_name, raw_data.read()))
+    print(run_parser(parser_name, raw_data_path.read()))
 
 
 @cli.command('run-parser')
