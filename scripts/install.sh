@@ -3,16 +3,11 @@
 set -e
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-
-function main {
-    python -m virtualenv .env --prompt "[thoughts-processor] "
-    find .env -name site-packages -exec bash -c 'echo "../../../../" > {}/self.pth' \;
-    .env/bin/pip install -U pip
-    .env/bin/pip install -r requirements.txt
-
-#   Generate protobuf sources:
-    protoc -I=cortex/proto/ --python_out=cortex/proto/ cortex/proto/cortex.proto
+function main() {
+  python3 -m virtualenv .env --prompt "[cortex] "
+  find .env -name site-packages -exec bash -c 'echo "../../../../" > {}/self.pth' \;
+  .env/bin/pip install -U pip
+  .env/bin/pip install -r requirements.txt
 }
-
 
 main "$@"

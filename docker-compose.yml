@@ -1,4 +1,11 @@
-version: '3'
+version: '3.4'
+
+x-common-wait-args: &WAIT_ARGS
+  - WAIT_HOSTS=rabbitmq:5672
+  - WAIT_SLEEP_INTERVAL=3
+  - WAIT_HOSTS_TIMEOUT=60
+  - WAIT_BEFORE_HOSTS=5
+
 services:
 
   server:
@@ -8,7 +15,8 @@ services:
       - 8000:8000
     volumes:
       - cortex_data:/tmp/cortex-data
-    command: python -m cortex.server run-server -h '0.0.0.0' -p 8000 rabbitmq://rabbitmq:5672/
+    command: sh -c "/wait && python -m cortex.server run-server -h '0.0.0.0' -p 8000 rabbitmq://rabbitmq:5672/"
+    environment: *WAIT_ARGS
     depends_on:
       - rabbitmq
 
@@ -18,9 +26,7 @@ services:
     volumes:
       - cortex_data:/tmp/cortex-data
     command: sh -c "/wait && python -m cortex.parsers run-parser pose rabbitmq://rabbitmq:5672/"
-    environment:
-      - WAIT_HOSTS=rabbitmq:5672
-      - WAIT_SLEEP_INTERVAL=3
+    environment: *WAIT_ARGS
     depends_on:
       - server
       - rabbitmq
@@ -31,9 +37,7 @@ services:
     volumes:
       - cortex_data:/tmp/cortex-data
     command: sh -c "/wait && python -m cortex.parsers run-parser color_image rabbitmq://rabbitmq:5672/"
-    environment:
-      - WAIT_HOSTS=rabbitmq:5672
-      - WAIT_SLEEP_INTERVAL=3
+    environment: *WAIT_ARGS
     depends_on:
       - server
       - rabbitmq
@@ -44,9 +48,7 @@ services:
     volumes:
       - cortex_data:/tmp/cortex-data
     command: sh -c "/wait && python -m cortex.parsers run-parser depth_image rabbitmq://rabbitmq:5672/"
-    environment:
-      - WAIT_HOSTS=rabbitmq:5672
-      - WAIT_SLEEP_INTERVAL=3
+    environment: *WAIT_ARGS
     depends_on:
       - server
       - rabbitmq
@@ -57,9 +59,7 @@ services:
     volumes:
       - cortex_data:/tmp/cortex-data
     command: sh -c "/wait && python -m cortex.parsers run-parser feelings rabbitmq://rabbitmq:5672/"
-    environment:
-      - WAIT_HOSTS=rabbitmq:5672
-      - WAIT_SLEEP_INTERVAL=3
+    environment: *WAIT_ARGS
     depends_on:
       - server
       - rabbitmq
@@ -73,13 +73,15 @@ services:
     environment:
       - WAIT_HOSTS=rabbitmq:5672, mongodb:27017
       - WAIT_SLEEP_INTERVAL=3
+      - WAIT_HOSTS_TIMEOUT=60
+      - WAIT_BEFORE_HOSTS=5
     depends_on:
       - server
       - rabbitmq
       - mongodb
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
