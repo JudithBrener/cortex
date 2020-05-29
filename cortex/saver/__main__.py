@@ -25,7 +25,7 @@ def cli():
     help="Database URL",
 )
 @click.argument("topic")
-@click.argument("data_path", type=click.File("rb"))
+@click.argument("data_path", type=click.File())
 def save(database, topic, data_path):
     saver = create_saver(database)
     saver.save(topic, data_path.read())
@@ -62,12 +62,12 @@ def consume_from_rabbitmq(hostname, port, saver):
 def create_saver(db_url):
     parsed_db_url = urlparse(db_url)
     if not parsed_db_url.scheme:
-        raise ValueError("Database URL is invalid")
+        raise ValueError("Database URL is invalid. Provide scheme")
     if parsed_db_url.scheme == 'mongodb':
         with pymongo.MongoClient(host=parsed_db_url.hostname, port=parsed_db_url.port) as mongo_client:
             db = MongoCortexDao(mongo_client)
     else:
-        raise NotImplementedError('not supporting message queue of type ' + parsed_db_url.scheme)
+        raise NotImplementedError('Not supporting database of type ' + parsed_db_url.scheme)
     saver = Saver(db)
     return saver
 
