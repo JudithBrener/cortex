@@ -21,5 +21,6 @@ export default {
 .header a {
   color: #fff;
   padding-right: 5px;
+  text-decoration: none;
 }
 </style>

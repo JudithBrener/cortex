@@ -1,3 +1,7 @@
+# Ignore UI
+gui/
+gui/**/*
+
 # Git
 .git
 .gitignore

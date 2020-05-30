@@ -26,4 +26,13 @@ export default {
 .header {
   margin-bottom: 3em;
 }
+
+.list-group-item {
+  margin-top: 2em;
+  max-width: 30%;
+}
+
+.list-group {
+  align-items: center;
+}
 </style>

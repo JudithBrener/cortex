@@ -4,36 +4,47 @@
     <h5>Snapshot ID: {{snapshot_id}}</h5>
     <h5>Topic: {{topic}}</h5>
     <vue-json-pretty :data="topic_details" :showDoubleQuotes="false"></vue-json-pretty>
+    <b-img :v-if="has_image" :src="image_url" fluid></b-img>
   </div>
 </template>
 
 
 <script>
 import VueJsonPretty from "vue-json-pretty";
+import axios from "axios";
 
 export default {
-  name: "Snapshot",
+  name: "Topic",
   components: {
     VueJsonPretty
   },
   data() {
     return {
-      topic_details: {
-        translation: {
-          x: 0.4873843491077423,
-          y: 0.007090016733855009,
-          z: -1.1306129693984985
-        },
-        rotation: {
-          x: -0.10888676356214629,
-          y: -0.26755994585035286,
-          z: -0.021271118915446748,
-          w: 0.9571326384559261
-        }
-      }
+      topic_details: {},
+      has_image: false,
+      image_url: ""
     };
   },
-  props: ["user_id", "snapshot_id", "topic"]
+  props: ["user_id", "snapshot_id", "topic"],
+  created() {
+    this.has_image = this.topic.includes("image");
+    axios
+      .get(
+        this.hostUrl +"/users/" +
+          this.user_id +
+          "/snapshots/" +
+          this.snapshot_id +
+          "/" +
+          this.topic
+      )
+      .then(res => {
+        this.topic_details = res.data;
+        if (this.has_image) {
+          this.image_url = this.topic_details.url_to_view_data;
+        }
+      })
+      .catch(err => console.log(err));
+  }
 };
 </script>
 

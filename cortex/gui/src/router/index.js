@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Users from '../views/Users.vue'
-import Snapshots from '../views/Snapshots.vue'
-import Snapshot from '../views/Snapshot.vue'
-import Topic from '../views/Topic.vue'
+import Users from '@/views/Users.vue'
+import Snapshots from '@/views/Snapshots.vue'
+import Snapshot from '@/views/Snapshot.vue'
+import Topic from '@/views/Topic.vue'
 
 Vue.use(VueRouter)
 

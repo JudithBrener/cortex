@@ -17,6 +17,11 @@ def run_api_server(host, port, db_url):
     with pymongo.MongoClient(host=parsed_db_url.hostname, port=parsed_db_url.port) as mongo_client:
         db = MongoCortexDao(mongo_client)
 
+    @app.after_request
+    def apply_caching(response):
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        return response
+
     @app.route('/')
     def health():
         return 'API Server is up and running!'
