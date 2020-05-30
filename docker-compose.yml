@@ -87,7 +87,7 @@ services:
       - 5000:5000
     volumes:
       - cortex_data:/tmp/cortex-data
-    command: sh -c "/wait && python -m cortex.api run-server -h '0.0.0.0' -p 5000 mongodb://mongodb:27017/"
+    command: sh -c "/wait && python -m cortex.api run-server -h '0.0.0.0' -p 5000 -d mongodb://mongodb:27017/"
     environment:
       - WAIT_HOSTS=mongodb:27017
       - WAIT_SLEEP_INTERVAL=3
