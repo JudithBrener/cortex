@@ -96,6 +96,22 @@ services:
     depends_on:
       - mongodb
 
+#  gui:
+#    image: gui
+#    build:
+#      context: .
+#      dockerfile: ./cortex/gui/Dockerfile
+#    ports:
+#      - 8080:8080
+#    command: sh -c "/wait && python -m cortex.api run-server -h '0.0.0.0' -p 5000 -d mongodb://mongodb:27017/"
+#    environment:
+#      - WAIT_HOSTS=mongodb:27017
+#      - WAIT_SLEEP_INTERVAL=3
+#      - WAIT_HOSTS_TIMEOUT=60
+#      - WAIT_BEFORE_HOSTS=5
+#    depends_on:
+#      - mongodb
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:

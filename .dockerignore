@@ -1,6 +1,5 @@
 # Ignore UI
-gui/
-gui/**/*
+/cortex/gui/gui_vue
 
 # Git
 .git

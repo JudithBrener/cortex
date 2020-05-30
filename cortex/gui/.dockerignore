@@ -1,0 +1,15 @@
+node_modules/
+*/node_modules/
+*/*/node_modules/
+*/*/*/node_modules/
+/app/gui/gui_vue/node_modules
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+*.py[cod]
+*/*.py[cod]
+*/*/*.py[cod]
+*/*/*/*.py[cod]
