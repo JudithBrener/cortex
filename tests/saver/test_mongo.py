@@ -73,13 +73,14 @@ def test_update_snapshot(mongo_db, snapshots):
 
 
 def test_snapshots_uniqueness(mongo_db, snapshots):
-    snapshots.insert(
-        {"user_id": _USER_ID, "datetime": _TIMESTAMP, "topic": "data"}, manipulate=False)
+    snapshots.insert(user_data(_TIMESTAMP), manipulate=False)
     with pytest.raises(pymongo.errors.DuplicateKeyError):
-        snapshots.insert(
-            {"user_id": _USER_ID, "datetime": _TIMESTAMP, "other_topic": "other_data"}, manipulate=False)
-    snapshots.insert(
-        {"user_id": _USER_ID, "datetime": _TIMESTAMP + 1, "other_topic": "other_data"}, manipulate=False)
+        snapshots.insert(user_data(_TIMESTAMP), manipulate=False)
+    snapshots.insert(user_data(_TIMESTAMP + 1), manipulate=False)
+
+
+def user_data(timestamp):
+    return {"user_id": _USER_ID, "datetime": timestamp, "topic": "data"}
 
 
 def assert_db_object_equals(db_object, expected_object):
