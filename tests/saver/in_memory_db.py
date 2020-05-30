@@ -21,3 +21,18 @@ class InMemoryCortexDao(CortexDao):
         self.snapshots[snapshot_id]["user_id"] = user_id
         self.snapshots[snapshot_id]["datetime"] = timestamp
         return snapshot_id
+
+    def get_users(self):
+        pass
+
+    def get_user(self, user_id):
+        pass
+
+    def get_snapshots(self, user_id):
+        pass
+
+    def get_snapshot(self, user_id, snapshot_id):
+        pass
+
+    def get_snapshot_topic(self, user_id, snapshot_id, topic):
+        pass

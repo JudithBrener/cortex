@@ -3,7 +3,7 @@ from json import JSONDecodeError
 
 import pytest
 
-from cortex.saver.in_memory_db import InMemoryCortexDao
+from tests.saver.in_memory_db import InMemoryCortexDao
 from cortex.saver.saver import Saver
 from tests.saver.test_data import _TEST_TOPIC, _USER, _TIMESTAMP, _TEST_DATA, _MESSAGE, _REAL_MESSAGE, _USER_ID
 
