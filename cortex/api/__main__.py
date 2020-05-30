@@ -17,11 +17,11 @@ def cli():
 @click.option('-h', '--host', default='127.0.0.1', help='API Server Host.')
 @click.option('-p', '--port', default=5000, help='API Server port.')
 @click.option('-d', '--database', default='mongodb://localhost:27017', help="URL including scheme of the Database.")
-def run_api(host, port, db_url):
+def run_api(host, port, database):
     """
     Receives hostname and port to run the API Server and database url for the API.
     """
-    run_api_server(host, port, db_url)
+    run_api_server(host, port, database)
 
 
 if __name__ == '__main__':
