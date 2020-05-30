@@ -41,7 +41,7 @@ def run_api_server(host, port, db_url):
             abort(404)
         for snapshot in snapshots:
             if 'datetime' in snapshot:
-                datetime = int(snapshot['datetime'] / 1e3)  # true division, remove milliseconds
+                datetime = int(snapshot['datetime']) / 1e3  # true division, remove milliseconds
                 snapshot['datetime'] = dt.datetime.fromtimestamp(datetime)
         return jsonify(snapshots)
 
@@ -51,7 +51,7 @@ def run_api_server(host, port, db_url):
         if snapshot is None:
             abort(404)
         if 'datetime' in snapshot:
-            datetime = int(snapshot['datetime'] / 1e3)  # true division, remove milliseconds
+            datetime = int(snapshot['datetime']) / 1e3  # true division, remove milliseconds
             snapshot['datetime'] = dt.datetime.fromtimestamp(datetime)
         return jsonify(snapshot)
 
