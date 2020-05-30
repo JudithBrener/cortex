@@ -1,4 +1,3 @@
-import json
 import sys
 import traceback
 from urllib.parse import urlparse
@@ -8,7 +7,7 @@ import pika
 import pymongo
 
 from cortex.saver import log
-from cortex.saver.mongo import MongoCortexDao
+from cortex.database.mongo import MongoCortexDao
 from cortex.saver.saver import Saver
 
 

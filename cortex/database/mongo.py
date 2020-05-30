@@ -3,7 +3,7 @@ import time
 
 import pymongo
 
-from cortex.saver.cortexdao import CortexDao
+from cortex.database.cortexdao import CortexDao
 
 log = logging.getLogger(__name__)
 CORTEX_NAMESPACE = "cortex"
@@ -30,6 +30,30 @@ class MongoCortexDao(CortexDao):
         replacement = {"$set": {"_id": snapshot_key, topic: topic_data}}
         self.db.snapshots.update_one(query, replacement, upsert=True)
         return snapshot_key
+
+    def get_users(self):
+        return list(self.db.users.find({}, {"_id": 0, "user_id": 1, "username": 1}))
+
+    def get_user(self, user_id):
+        return self.db.users.find_one({"user_id": user_id}, {"_id": 0})
+
+    def get_snapshots(self, user_id):
+        return list(self.db.snapshots.find({"user_id": user_id}, {"_id": 1, "datetime": 1}))
+
+    def get_snapshot(self, user_id, snapshot_id):
+        snapshot = self.db.snapshots.find_one({'_id': snapshot_id, 'user_id': user_id}, {'_id': 0, 'user_id': 0})
+        if snapshot is None:
+            return None
+        datetime = snapshot.pop('datetime')
+        return {'_id': snapshot_id, 'datetime': datetime, 'results_names': list(snapshot.keys())}
+
+    def get_snapshot_topic(self, user_id, snapshot_id, topic):
+        snapshot = self.db.snapshots.find_one({'_id': snapshot_id, 'user_id': user_id})
+        if snapshot is None:
+            return None
+        if topic not in snapshot:
+            return None
+        return {topic: snapshot[topic]}
 
     @staticmethod
     def wait_mongo(client):

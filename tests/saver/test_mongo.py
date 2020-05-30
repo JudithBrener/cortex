@@ -3,7 +3,7 @@ import copy
 import pymongo
 import pytest
 
-from cortex.saver.mongo import MongoCortexDao, CORTEX_NAMESPACE
+from cortex.database.mongo import MongoCortexDao, CORTEX_NAMESPACE
 from tests.saver.test_data import _TEST_TOPIC, _USER, _TIMESTAMP, _TEST_DATA, _USER_ID, \
     _POSE_DATA
 

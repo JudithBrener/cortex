@@ -1,4 +1,4 @@
-from cortex.saver.cortexdao import CortexDao
+from cortex.database.cortexdao import CortexDao
 
 
 class InMemoryCortexDao(CortexDao):
