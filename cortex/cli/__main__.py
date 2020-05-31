@@ -48,7 +48,7 @@ def get_snapshots(host, port, user_id):
 @click.option('-h', '--host', default='127.0.0.1', help='API Server Host.')
 @click.option('-p', '--port', default=5000, help='API Server port.')
 @click.argument('user_id', type=int)
-@click.argument('snapshot_id', type=int)
+@click.argument('snapshot_id', type=str)
 def get_snapshot(host, port, user_id, snapshot_id):
     """
     Returns the specified snapshot's details: ID, datetime, and the available results' names only.
@@ -61,7 +61,7 @@ def get_snapshot(host, port, user_id, snapshot_id):
 @click.option('-p', '--port', default=5000, help='API Server port.')
 @click.option('-s', '--save', default=None, help='Provide Path to save the result to that path.')
 @click.argument('user_id', type=int)
-@click.argument('snapshot_id', type=int)
+@click.argument('snapshot_id', type=str)
 @click.argument('result_name', type=str)
 def get_result(host, port, user_id, snapshot_id, result_name, save):
     """
