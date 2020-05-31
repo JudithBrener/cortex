@@ -9,7 +9,6 @@ import uuid
 import docker as libdocker
 import pytest
 
-import cortex.proto.cortex_pb2 as proto
 from cortex.proto.cortex_pb2 import User, Snapshot, ColorImage, DepthImage, Feelings, Pose
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -66,4 +65,4 @@ def mind_sample(user, snapshot):
         f.write(serialized_user)
         f.write(struct.pack('I', len(serialized_snapshot)))
         f.write(serialized_snapshot)
-    return path
+    yield path
