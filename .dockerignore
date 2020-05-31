@@ -1,5 +1,5 @@
 # Ignore UI
-/cortex/gui/gui_vue
+/cortex/gui/gui_vue/node_modules
 
 # Git
 .git

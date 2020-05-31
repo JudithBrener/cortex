@@ -2,7 +2,7 @@ node_modules/
 */node_modules/
 */*/node_modules/
 */*/*/node_modules/
-/app/gui/gui_vue/node_modules
+/cortex/gui/gui_vue/node_modules
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
