@@ -28,21 +28,17 @@ def user():
 
 
 @pytest.fixture
-def mind_sample():
+def reader():
     resources_dir = pathlib.Path(__file__).resolve().parent.parent / 'resources'
-    return resources_dir / 'test_sample.mind'
-
-
-@pytest.fixture
-def reader(mind_sample):
-    return Reader(pathlib.Path(mind_sample).open('rb'))
+    mind_sample = resources_dir / 'test_sample.mind'
+    return Reader(mind_sample.open('rb'))
 
 
 def test_read_user(reader, user):
     read_user = reader.user
-    assert read_user.SerializeToString() == user.SerializeToString()
+    assert str(read_user.SerializeToString()) == str(user.SerializeToString())
 
 
 def test_read_snapshot(reader, snapshot):
     for read_snapshot in reader:
-        assert read_snapshot.SerializeToString() == snapshot.SerializeToString()
+        assert str(read_snapshot.SerializeToString()) == str(snapshot.SerializeToString())
