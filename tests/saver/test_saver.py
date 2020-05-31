@@ -3,14 +3,8 @@ from json import JSONDecodeError
 
 import pytest
 
-from tests.saver.in_memory_db import InMemoryCortexDao
 from cortex.saver.saver import Saver
 from tests.saver.test_data import _TEST_TOPIC, _USER, _TIMESTAMP, _TEST_DATA, _MESSAGE, _REAL_MESSAGE, _USER_ID
-
-
-@pytest.fixture
-def db():
-    return InMemoryCortexDao()
 
 
 @pytest.fixture
@@ -45,7 +39,7 @@ def test_input_without_topic_data(saver):
 
 def test_save_user_info(saver, db):
     saver.save(_TEST_TOPIC, json.dumps(_MESSAGE))
-    assert _USER_ID in db.users
+    assert _USER_ID in list(map(lambda u: u['user_id'], db.get_users()))
 
 
 def test_save_topic_data(saver, db):
@@ -62,9 +56,9 @@ def test_save_real_message(saver, db):
 
 def assert_snapshot_data(db, user_id, timestamp, topic, topic_data):
     snapshot_key = db.get_snapshot_key(user_id, timestamp)
-    assert snapshot_key in db.snapshots
-    snapshot = db.snapshots[snapshot_key]
-    assert topic in snapshot
-    assert topic_data == snapshot[topic]
-    assert user_id == snapshot["user_id"]
+    assert snapshot_key in list(map(lambda s: s['_id'], db.get_snapshots(user_id)))
+    snapshot = db.get_snapshot(user_id, snapshot_key)
+    assert snapshot_key == snapshot["_id"]
     assert timestamp == snapshot["datetime"]
+    assert topic in snapshot["results_names"]
+    assert {topic: topic_data} == db.get_snapshot_topic(user_id, snapshot_key, topic)

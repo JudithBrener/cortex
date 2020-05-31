@@ -3,6 +3,8 @@ import time
 import pymongo
 import pytest
 
+from cortex.database.mongo import MongoCortexDao, CORTEX_NAMESPACE
+
 
 @pytest.yield_fixture
 def mongo_client(mongo_server):
@@ -47,3 +49,20 @@ def wait_mongo(port):
             return
     else:
         raise RuntimeError("Unable to connect to mongodb at port %s", port)
+
+
+@pytest.fixture
+def users(mongo_client):
+    return mongo_client[CORTEX_NAMESPACE].users
+
+
+@pytest.fixture
+def snapshots(mongo_client):
+    return mongo_client[CORTEX_NAMESPACE].snapshots
+
+
+@pytest.yield_fixture
+def db(mongo_client, users, snapshots):
+    yield MongoCortexDao(mongo_client)
+    users.drop()
+    snapshots.drop()
