@@ -36,9 +36,9 @@ def reader():
 
 def test_read_user(reader, user):
     read_user = reader.user
-    assert str(read_user.SerializeToString()) == str(user.SerializeToString())
+    assert read_user.SerializeToString() == user.SerializeToString()
 
 
 def test_read_snapshot(reader, snapshot):
     for read_snapshot in reader:
-        assert str(read_snapshot.SerializeToString()) == str(snapshot.SerializeToString())
+        assert read_snapshot.SerializeToString() == snapshot.SerializeToString()
