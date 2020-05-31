@@ -1,7 +1,4 @@
-node_modules/
-*/node_modules/
-*/*/node_modules/
-*/*/*/node_modules/
+# Ignore UI
 /cortex/gui/gui_vue/node_modules
 
 # Byte-compiled / optimized / DLL files
