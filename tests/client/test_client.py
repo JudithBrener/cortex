@@ -24,7 +24,7 @@ def snapshot():
 
 @pytest.fixture
 def user():
-    return User(user_id=6, username="Judith Brener", birthday=int(dt.datetime(1994, 5, 1).timestamp()), gender=1)
+    return User(user_id=6, username="Judith Brener", birthday=767750400, gender=1)
 
 
 @pytest.fixture
