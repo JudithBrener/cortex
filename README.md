@@ -53,40 +53,40 @@
 
     ```sh
     $ python -m cortex.cli get-users
-    {}
+    [{'user_id': '6', 'username': 'Judith Brener'}]
     ...
     ```
 ## Adding new parser
-1. Add your parser file in parsers package.
-    - The file name must start with `parser_` e.g. `parser_pose.py`
+Add your parser file in parsers package.
+- The file name must start with `parser_` e.g. `parser_pose.py`
 
-2. Parser can be implemented as a function or a class:
-    - Function:
+Parser can be implemented as a function or a class:
+- Function:
     
-        Function name must be of the form `parse_<parser-name>` 
+    Function name must be of the form `parse_<parser-name>` 
     
-        Function Module must have an attribute called `field`
+    Function Module must have an attribute called `field`
         
-      ```python
-      def parse_pose(message):
-        ...
-      parse_pose.field = 'pose'
-      ```
+  ```python
+  def parse_pose(message):
+    ...
+  parse_pose.field = 'pose'
+  ```
   
-    - Class:
+- Class:
 
-        Class must have an attribute called `field`
+    Class must have an attribute called `field`
+
+    Class must have the parsing static method called `parse`
     
-        Class must have the parsing static method called `parse`
-        
-      ```python
-      class ColorImageParser:
-        field = 'color_image'
-    
-        @staticmethod
-        def parse(message):
-          ...
-      ```
+  ```python
+  class ColorImageParser:
+    field = 'color_image'
+
+    @staticmethod
+    def parse(message):
+      ...
+  ```
 
 ## Usage
 
