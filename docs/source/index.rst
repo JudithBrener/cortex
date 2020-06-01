@@ -1,16 +1,17 @@
-.. thoughts-processor documentation master file, created by
-   sphinx-quickstart on Sat Jan  4 20:06:02 2020.
+.. Cortex documentation master file, created by
+   sphinx-quickstart on Mon Jun  1 17:00:10 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to thoughts-processor's documentation!
-==============================================
+Welcome to Cortex's documentation!
+==================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
-   thought
+   cortex
+
 
 
 Indices and tables
