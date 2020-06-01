@@ -53,7 +53,7 @@
 
     ```sh
     $ python -m cortex.cli get-users
-    {}
+    [{'user_id': '6', 'username': 'Judith Brener'}]
     ...
     ```
 ## Adding new parser
