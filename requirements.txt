@@ -28,7 +28,7 @@ MarkupSafe==1.1.1
 more-itertools==8.0.2
 packaging==19.2
 pluggy==0.13.1
-protobuf==3.11.2
+protobuf==3.18.3
 py==1.8.0
 Pygments==2.5.2
 pyparsing==2.4.6
